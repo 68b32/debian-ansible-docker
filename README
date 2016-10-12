@@ -1,4 +1,4 @@
-Debian jessie images for use with ansible. Containers of the type debian-ansible-slave are controled by the container of the debian-ansible-master image.
+Debian jessie images for use with ansible. Containers of the type debian-ansible-slave are controlled by the container of the debian-ansible-master image.
 The debian-ansible-master image will install the latest version of ansible available from git.
 
 
@@ -6,6 +6,7 @@ The debian-ansible-master image will install the latest version of ansible avail
 # BUILD
 ##
 
+root@host:~# git clone https://github.com/68b32/debian-ansible-docker.git
 root@host:~# cd debian-ansible-docker/
 root@host:~# docker build -t debian-ansible-slave debian-ansible-slave/
 root@host:~# docker build -t debian-ansible-master debian-ansible-master/
@@ -18,7 +19,7 @@ root@host:~# docker build -t debian-ansible-master debian-ansible-master/
 root@host:~# mkdir /root/ansible-ssh-key/ && ssh-keygen -N '' -f /root/ansible-ssh-key/key
 
 # Spawn ansible slave systems by running the following command multiple times
-docker run -d -e "PUBLICKEY=`cat /root/ansible-ssh/key.pub`" debian-ansible-slave
+docker run -d -e "PUBLICKEY=`cat /root/ansible-ssh-key/key.pub`" debian-ansible-slave
 
 # Start ansible master and connect to its terminal
 docker run -e "PRIVATEKEY=`cat /root/ansible-ssh-key/key`" -it --name=debian-ansible-master debian-ansible-master
